@@ -1,0 +1,14 @@
+StudentID,Name,Subjects
+STU001,Kaustubh,AI|ML|DS
+STU002,Sahil,AI|IOT
+STU003,Utkarsha,ML|DS
+STU006,Kaustubh,AI|ML|maths
+STD001,Kaustubh,AI|ML|DS|maths
+STD002,Sahil,AI|maths|DS
+STD003,Utkarsha,AI|DS
+STD004,OM,AI|maths|DS
+STD005,RAM,AI|ELC|maths|C
+STDO1,Kaustubh,AI|ELC|MATHS|ENG|IKS
+STD02,Sahil,AI|ELC|MATHS|ENG|IKS
+STD03,Utkarsha,AI|ELC|MATHS|ENG
+STD04,Ram,AI|ELC|ENG|IKS
