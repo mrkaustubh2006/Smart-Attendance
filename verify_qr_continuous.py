@@ -22,15 +22,28 @@ if not subject:
 # students.csv format:
 # StudentID,Name,Subjects
 # STU001,Kaustubh,AI|ML|DS
+# ===================== LOAD STUDENTS =====================
+
+import pandas as pd
 
 df = pd.read_csv("students.csv")
+
+# Remove hidden spaces from column names
+df.columns = df.columns.str.strip()
+
+print("DEBUG Columns:", df.columns.tolist())
 
 STUDENTS = {}
 STUDENT_SUBJECTS = {}
 
 for _, row in df.iterrows():
-    STUDENTS[row["StudentID"]] = row["Name"]
-    STUDENT_SUBJECTS[row["StudentID"]] = row["Subjects"].split("|")
+
+    sid = str(row["StudentID"]).strip()
+    name = str(row["Name"]).strip()
+    subjects = str(row["Subjects"]).strip()
+
+    STUDENTS[sid] = name
+    STUDENT_SUBJECTS[sid] = subjects.split("|")
 
 # ===================== DUPLICATE CHECK =====================
 def already_marked(student_id, subject, date):

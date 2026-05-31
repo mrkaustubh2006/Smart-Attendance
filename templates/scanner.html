@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>QR Scanner</title>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+}
+
+#reader{
+    width:500px;
+    margin:auto;
+    margin-top:30px;
+}
+
+#result{
+    margin-top:20px;
+    font-size:22px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>QR Attendance Scanner</h1>
+
+<div id="reader"></div>
+
+<div id="result">
+    Scan Student QR
+</div>
+
+<script>
+
+let lastScan = "";
+
+function onScanSuccess(decodedText)
+{
+    if(decodedText === lastScan)
+    {
+        return;
+    }
+
+    lastScan = decodedText;
+
+    fetch("/mark_attendance",
+    {
+        method:"POST",
+
+        headers:
+        {
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            student_id:decodedText
+        })
+    })
+
+    .then(response => response.json())
+
+    .then(data =>
+    {
+        document.getElementById("result").innerHTML =
+        data.message;
+    })
+
+    .catch(error =>
+    {
+        document.getElementById("result").innerHTML =
+        "Error";
+    });
+}
+
+let scanner =
+new Html5QrcodeScanner(
+    "reader",
+    {
+        fps:10,
+        qrbox:250
+    }
+);
+
+scanner.render(onScanSuccess);
+
+</script>
+
+</body>
+</html>

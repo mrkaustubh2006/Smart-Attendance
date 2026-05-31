@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Attendance Log</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="table-container">
+
+<h1>Attendance Log</h1>
+
+<table>
+
+<tr>
+<th>Student ID</th>
+<th>Name</th>
+<th>Date</th>
+<th>Time</th>
+<th>Method</th>
+</tr>
+
+{% for row in attendance %}
+
+<tr>
+<td>{{ row.StudentID }}</td>
+<td>{{ row.Name }}</td>
+<td>{{ row.Date }}</td>
+<td>{{ row.Time }}</td>
+<td>{{ row.Method }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Attendance</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Student Registration</h1>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="student_id"
+                placeholder="Student ID"
+                required
+            >
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Student Name"
+                required
+            >
+
+            <input
+                type="text"
+                name="subjects"
+                placeholder="AI|Maths|ML"
+                required
+            >
+
+            <button type="submit">
+                Register Student
+            </button>
+
+        </form>
+
+        {% if message %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        {% if qr_image %}
+            <div class="qr-box">
+
+                <img
+                    src="{{ url_for('static', filename=qr_image) }}"
+                >
+
+                <p>Generated QR Code</p>
+
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

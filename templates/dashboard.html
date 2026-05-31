@@ -1,0 +1,68 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Attendance Dashboard</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🎓 Smart Attendance</h2>
+
+    <a href="/dashboard">🏠 Dashboard</a>
+    <a href="/register">👨‍🎓 Register Student</a>
+    <a href="/students">📋 Student List</a>
+    <a href="/scanner">📷 QR Scanner</a>
+    <a href="/attendance">✅ Attendance Log</a>
+    <a href="/report">📊 Reports</a>
+
+</div>
+
+<div class="main-content">
+
+    <h1>Dashboard Overview</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>{{ total_students }}</h2>
+            <p>Total Students</p>
+        </div>
+
+        <div class="card">
+            <h2>QR</h2>
+            <p>Attendance Scanner</p>
+        </div>
+
+        <div class="card">
+            <h2>CSV</h2>
+            <p>Attendance Reports</p>
+        </div>
+
+    </div>
+
+    <div class="welcome-box">
+
+        <h2>Welcome to Smart Attendance System</h2>
+
+        <p>
+            Register students, generate QR codes,
+            scan attendance and manage reports
+            from one dashboard.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```
