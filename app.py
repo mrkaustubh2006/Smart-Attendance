@@ -198,82 +198,96 @@ def report():
 
 # ================= ATTENDANCE API =================
 
+# Subject will come from scanner page
+
 @app.route("/mark_attendance", methods=["POST"])
 def mark_attendance():
 
     data = request.get_json()
 
-    if not data:
-        return jsonify({
-            "success": False,
-            "message": "No data received"
-        })
-
     student_id = str(
         data.get("student_id", "")
     ).strip()
 
+    subject = str(
+        data.get("subject", "")
+    ).strip()
+
     if student_id == "":
         return jsonify({
-            "success": False,
-            "message": "Invalid QR"
+            "message": "❌ INVALID QR"
         })
 
     if not os.path.exists("students.csv"):
         return jsonify({
-            "success": False,
-            "message": "students.csv not found"
+            "message": "❌ students.csv not found"
         })
 
     students = pd.read_csv("students.csv")
-
     students.columns = students.columns.str.strip()
 
-    if "StudentID" not in students.columns:
-        return jsonify({
-            "success": False,
-            "message": "StudentID column missing"
-        })
-
-    if "Name" not in students.columns:
-        return jsonify({
-            "success": False,
-            "message": "Name column missing"
-        })
-
     student = students[
-        students["StudentID"].astype(str).str.strip() == student_id
+        students["StudentID"].astype(str).str.strip()
+        == student_id
     ]
 
     if student.empty:
         return jsonify({
-            "success": False,
-            "message": "Student not registered"
+            "message": "❌ INVALID QR"
         })
 
     name = student.iloc[0]["Name"]
+
+    subjects = str(
+        student.iloc[0]["Subjects"]
+    )
+
+    subject_list = [
+        s.strip()
+        for s in subjects.split("|")
+    ]
+
+    if subject not in subject_list:
+        return jsonify({
+            "message": f"❌ NOT ENROLLED IN {subject}"
+        })
 
     today = datetime.now().strftime("%Y-%m-%d")
 
     if os.path.exists("attendance_log.csv"):
 
-        attendance = pd.read_csv("attendance_log.csv")
+        attendance = pd.read_csv(
+            "attendance_log.csv"
+        )
 
-        if not attendance.empty:
+        if (
+            "StudentID" in attendance.columns
+            and
+            "Date" in attendance.columns
+            and
+            "Method" in attendance.columns
+        ):
 
             duplicate = attendance[
-                (attendance["StudentID"].astype(str) == student_id)
+                (attendance["StudentID"].astype(str)
+                 == student_id)
                 &
-                (attendance["Date"].astype(str) == today)
+                (attendance["Date"].astype(str)
+                 == today)
+                &
+                (attendance["Method"].astype(str)
+                 == subject)
             ]
 
             if not duplicate.empty:
                 return jsonify({
-                    "success": False,
-                    "message": "Attendance already marked today"
+                    "message":
+                    f"⚠️ PRESENT REPEATED : {name}"
                 })
 
-    file_exists = os.path.exists("attendance_log.csv")
+    file_exists = os.path.exists(
+        "attendance_log.csv"
+    )
 
     with open(
         "attendance_log.csv",
@@ -285,6 +299,7 @@ def mark_attendance():
         writer = csv.writer(f)
 
         if not file_exists:
+
             writer.writerow([
                 "StudentID",
                 "Name",
@@ -298,13 +313,15 @@ def mark_attendance():
             name,
             today,
             datetime.now().strftime("%H:%M:%S"),
-            "QR"
+            subject
         ])
 
     return jsonify({
-        "success": True,
-        "message": f"Attendance Marked : {name}"
+        "message":
+        f"✅ PRESENT : {name}"
     })
+
+
 
 if __name__ == "__main__":
     app.run(
