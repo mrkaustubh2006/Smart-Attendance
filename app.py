@@ -303,6 +303,7 @@ def mark_attendance():
             writer.writerow([
                 "StudentID",
                 "Name",
+                "Subject",
                 "Date",
                 "Time",
                 "Method"
