@@ -1,10 +1,7 @@
-opencv-python==4.8.0.74
-qrcode==7.4.2
-pyzbar==0.1.9
-Pillow==10.0.0
-numpy==1.24.3
-flask
-pandas
-qrcode
-pillow
-gunicorn
+Flask==3.1.3
+pandas==2.3.3
+qrcode==8.2
+Pillow==10.4.0
+gunicorn==23.0.0
+numpy==2.2.6
+opencv-python-headless==4.10.0.84
