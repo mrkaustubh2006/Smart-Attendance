@@ -272,11 +272,11 @@ def mark_attendance():
                 (attendance["StudentID"].astype(str)
                  == student_id)
                 &
+                (attendance["Subject"].astype(str)
+                 == subject)
+                &
                 (attendance["Date"].astype(str)
                  == today)
-                &
-                (attendance["Method"].astype(str)
-                 == subject)
             ]
 
             if not duplicate.empty:
@@ -312,9 +312,11 @@ def mark_attendance():
         writer.writerow([
             student_id,
             name,
+            subject,
             today,
             datetime.now().strftime("%H:%M:%S"),
-            subject
+            "QR"
+            
         ])
 
     return jsonify({
